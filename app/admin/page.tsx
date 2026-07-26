@@ -183,7 +183,7 @@ export default function AdminDashboard() {
 
   /* ---------------- DASHBOARD ---------------- */
   return (
-    <div style={{ maxWidth: 1200, margin: '0 auto', padding: '2rem' }}>
+    <div className="pw-page" style={{ maxWidth: 1200, margin: '0 auto', padding: '2rem' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', flexWrap: 'wrap', gap: 12 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
           <div>

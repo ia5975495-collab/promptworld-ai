@@ -46,12 +46,12 @@ export default function PromptDetailPage() {
   if (!prompt) return <div style={{ padding: '4rem', textAlign: 'center', color: '#fff' }}><h1>Prompt not found</h1><Link href="/gallery" style={{ color: '#b9a7ff' }}>← Back to Gallery</Link></div>;
 
   return (
-    <div style={{ maxWidth: 1280, margin: '0 auto', padding: '2rem', color: '#fff' }}>
+    <div className="pw-page" style={{ maxWidth: 1280, margin: '0 auto', padding: '2rem', color: '#fff' }}>
       <Link href="/gallery" style={{ color: 'var(--muted)', textDecoration: 'none', fontSize: 14, display: 'inline-block', marginBottom: '1.5rem' }}>← Back to Gallery</Link>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
         <div>
           <div style={{ borderRadius: 18, overflow: 'hidden', border: '1px solid var(--line)' }}><img src={prompt.image_url} alt={prompt.title} style={{ width: '100%', aspectRatio: '3/4', objectFit: 'cover' }} /></div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginTop: '1rem', padding: '1rem 0', borderTop: '1px solid var(--line)' }}>
+          <div className="pw-actions" style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginTop: '1rem', padding: '1rem 0', borderTop: '1px solid var(--line)' }}>
             <button onClick={handleLike} title={isLiked ? 'Unlike' : 'Like'} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 28, padding: 8 }}>{isLiked ? '❤️' : '🤍'}</button>
             <button onClick={handleShare} title="Share" style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 28, padding: 8 }}>✈️</button>
             <div style={{ display: 'flex', gap: '2rem', marginLeft: '1rem', fontSize: 14, color: 'var(--muted)' }}><span>{likesCount.toLocaleString()} likes</span><span>{sharesCount.toLocaleString()} shares</span></div>

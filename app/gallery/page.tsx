@@ -17,7 +17,7 @@ export default function GalleryPage() {
   });
 
   return (
-    <div style={{ maxWidth: 1400, margin: '0 auto', padding: '2rem', display: 'flex', gap: '2rem' }}>
+    <div className="pw-page" style={{ maxWidth: 1400, margin: '0 auto', padding: '2rem', display: 'flex', gap: '2rem' }}>
       <aside style={{ width: 250, flexShrink: 0, position: 'sticky', top: 100, height: 'fit-content' }}>
         <h3 style={{ color: '#fff', marginBottom: '1rem', fontSize: 18, fontWeight: 700 }}>Categories</h3>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>

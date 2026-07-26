@@ -3,6 +3,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { CATEGORIES } from '@/lib/mockData';
 import { usePrompts } from '@/lib/store';
+import MobileCategoryBar from '@/components/MobileCategoryBar';
 
 const TICKER = ['Midjourney V6', 'DALL·E 3', 'Stable Diffusion XL', 'Flux Pro', 'Leonardo Phoenix', 'Ideogram 2', 'Adobe Firefly'];
 
@@ -14,8 +15,8 @@ export default function Home() {
   const countFor = (slug: string) => prompts.filter((p) => p.category === slug).length;
 
   return (
-    <div style={{ maxWidth: 1400, margin: '0 auto', padding: '2rem', display: 'flex', gap: '2rem' }}>
-      <aside style={{ width: 250, flexShrink: 0, position: 'sticky', top: 100, height: 'fit-content' }}>
+    <div className="pw-page" style={{ maxWidth: 1400, margin: '0 auto', padding: '2rem', display: 'flex', gap: '2rem' }}>
+      <aside className="pw-catside" style={{ width: 250, flexShrink: 0, position: 'sticky', top: 100, height: 'fit-content' }}>
         <h3 style={{ color: '#fff', marginBottom: '1rem', fontSize: 18, fontWeight: 700 }}>Categories</h3>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           <button className={`pw-sidebar-item ${selected === 'all' ? 'is-active' : ''}`} onClick={() => setSelected('all')}><span>📊 All Prompts</span><span className="count">{prompts.length}</span></button>
@@ -55,7 +56,7 @@ export default function Home() {
           {selected !== 'all' && <button onClick={() => setSelected('all')} style={{ color: '#b9a7ff', background: 'none', border: 'none', cursor: 'pointer', fontSize: 14 }}>Show all →</button>}
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '1.5rem' }}>
+        <div className="pw-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '1.5rem' }}>
           {filtered.map((prompt, i) => (
             <div key={prompt.id} className="pw-reveal" style={{ animationDelay: `${Math.min(i, 8) * 45}ms` }}>
               <Link href={`/prompt/${prompt.id}`} style={{ textDecoration: 'none' }}>
