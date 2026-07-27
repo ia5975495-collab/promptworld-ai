@@ -31,7 +31,7 @@ const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 export const CLOUD = !!(url && anon);
 const supa = CLOUD ? createClient(url, anon) : null;
 
-const MOCK = MOCK_PROMPTS as unknown as PromptItem[];
+const MOCK: PromptItem[] = [];
 
 function getUserPrompts(): PromptItem[] {
   if (typeof window === 'undefined') return [];
@@ -48,12 +48,12 @@ const emit = () => listeners.forEach((l) => l());
 async function load() {
   if (loaded || loading) return;
   loading = true;
-  cache = [...getUserPrompts(), ...MOCK];   // instant local paint
+  cache = [...getUserPrompts()];   // instant local paint
   emit();
   if (CLOUD && supa) {
     try {
       const { data } = await supa.from(TABLE).select('*').order('created_at', { ascending: false });
-      if (data && data.length) cache = [...(data as PromptItem[]), ...MOCK];
+      if (data && data.length) cache = [...(data as PromptItem[])];
     } catch { /* cloud unreachable → keep local+mock, no crash */ }
   }
   loaded = true; loading = false; emit();
@@ -87,7 +87,7 @@ export function publishLocal(p: PromptItem): { ok: boolean; error?: string } {
   list.unshift(p);
   try { localStorage.setItem(KEY, JSON.stringify(list)); }
   catch { return { ok: false, error: 'Storage full — the image is too large.' }; }
-  cache = [...list, ...MOCK]; loaded = true; emit();
+  cache = [...list]; loaded = true; emit();
   return { ok: true };
 }
 

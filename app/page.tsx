@@ -3,6 +3,8 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { CATEGORIES } from '@/lib/mockData';
 import { usePrompts } from '@/lib/store';
+import AdSlot from '@/components/AdSlot';
+import { ADS } from '@/lib/ads';
 import MobileCategoryBar from '@/components/MobileCategoryBar';
 
 const TICKER = ['Midjourney V6', 'DALL·E 3', 'Stable Diffusion XL', 'Flux Pro', 'Leonardo Phoenix', 'Ideogram 2', 'Adobe Firefly'];
@@ -16,6 +18,7 @@ export default function Home() {
 
   return (
     <div className="pw-page" style={{ maxWidth: 1400, margin: '0 auto', padding: '2rem', display: 'flex', gap: '2rem' }}>
+      {/* LEFT sidebar + left ad */}
       <aside className="pw-catside" style={{ width: 250, flexShrink: 0, position: 'sticky', top: 100, height: 'fit-content' }}>
         <h3 style={{ color: '#fff', marginBottom: '1rem', fontSize: 18, fontWeight: 700 }}>Categories</h3>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -32,17 +35,38 @@ export default function Home() {
           </div>
           {selected !== 'all' && <button className="pw-btn-ghost" onClick={() => setSelected('all')} style={{ width: '100%', marginTop: 14, justifyContent: 'center', padding: '9px' }}>Clear filter</button>}
         </div>
+        <AdSlot code={ADS.left} label="Sponsored" />
       </aside>
 
+      {/* MAIN */}
       <main style={{ flex: 1, minWidth: 0 }}>
         {selected === 'all' && (
-          <div className="pw-reveal" style={{ textAlign: 'center', padding: '4rem 2rem', background: 'var(--panel)', borderRadius: 24, border: '1px solid var(--line)', marginBottom: '2rem' }}>
-            <span className="pw-eyebrow">Curated prompt library</span>
-            <h1 style={{ fontSize: 48, fontWeight: 800, color: '#fff', marginBottom: '1rem', lineHeight: 1.15 }}>Discover the World's{' '}<span style={{ background: 'linear-gradient(120deg,#7c5cff,#5b8cff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Best AI Prompts</span></h1>
-            <p style={{ color: 'var(--muted)', fontSize: 18, maxWidth: 640, margin: '0 auto 2rem', lineHeight: 1.6 }}>Browse curated, production‑ready prompts for Midjourney, DALL·E, Stable Diffusion and more — then generate them in one click.</p>
-            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-              <Link href="/gallery" className="pw-btn-primary">Explore Gallery →</Link>
-              <Link href="/subscribe" className="pw-btn-ghost">Go Premium</Link>
+          <div className="pw-reveal pw-masthead" style={{ marginBottom: '2rem' }}>
+            <div className="pw-masthead__kicker">
+              <span className="pw-masthead__tick" /> Issue 01 — The Curated Archive
+              <span className="pw-masthead__sep" /> {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+            </div>
+            <div className="pw-masthead__grid">
+              <div>
+                <h1 className="pw-display" style={{ fontSize: 'clamp(40px,6vw,76px)', margin: '0 0 1.1rem', color: 'var(--paper)' }}>
+                  A living archive of<br /><span className="pw-accent-ink">prompts worth stealing.</span>
+                </h1>
+                <p style={{ color: 'var(--muted)', fontSize: 17, lineHeight: 1.6, maxWidth: 460, margin: '0 0 1.6rem' }}>
+                  Hand‑picked, production‑ready prompts for Midjourney, DALL·E, Flux and more — each one a recipe you can copy, remix, and generate in a single click.
+                </p>
+                <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+                  <Link href="/gallery" className="pw-btn-primary">Explore the gallery →</Link>
+                  <Link href="/subscribe" className="pw-btn-ghost">Go Premium</Link>
+                </div>
+              </div>
+              <div className="pw-contents">
+                <div className="pw-contents__head">Index</div>
+                {CATEGORIES.slice(0, 6).map((c) => { const slug = c.name.toLowerCase(); return (
+                  <button key={c.name} type="button" onClick={() => setSelected(slug)} className="pw-contents__row" style={{ background: 'none', border: 'none', width: '100%', font: 'inherit', cursor: 'pointer', textAlign: 'left' }}>
+                    <span>{c.icon} {c.name}</span><span className="pw-contents__leader" /><span className="pw-contents__num">{String(countFor(slug)).padStart(2, '0')}</span>
+                  </button>
+                ); })}
+              </div>
             </div>
           </div>
         )}
@@ -77,7 +101,26 @@ export default function Home() {
         </div>
 
         {filtered.length === 0 && <div style={{ textAlign: 'center', padding: '4rem', color: 'var(--muted)' }}><p style={{ fontSize: 18, marginBottom: '1rem' }}>No prompts in this category yet.</p><button className="pw-btn-ghost" onClick={() => setSelected('all')}>Show all prompts</button></div>}
+
+        <AdSlot code={ADS.bottom} label="Sponsored" className="pw-ad--dsk" />
+        <AdSlot code={ADS.bottomM} label="Sponsored" className="pw-ad--mob" />
       </main>
+
+      {/* RIGHT rail: native ad + smartlink + premium promo */}
+      <aside className="pw-rightrail">
+        <AdSlot code={ADS.right} label="Sponsored" />
+        <AdSlot code={ADS.smart} label="Sponsored partner" className="pw-smart" />
+        <div className="pw-promo">
+          <span className="pw-promo__kicker">PromptWorld+</span>
+          <h4 className="pw-promo__title">Unlock the full archive</h4>
+          <p className="pw-promo__text">Premium prompts, early drops, and the complete recipe library — ad‑light.</p>
+          <Link href="/subscribe" className="pw-btn-primary" style={{ width: '100%', justifyContent: 'center', padding: '10px' }}>Go Premium</Link>
+        </div>
+      </aside>
+
+      <MobileCategoryBar selected={selected} onSelect={setSelected} />
+      <AdSlot bare code={ADS.pop} />
+      <AdSlot bare code={ADS.social} />
     </div>
   );
 }
