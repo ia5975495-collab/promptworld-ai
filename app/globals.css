@@ -505,3 +505,61 @@ img { max-width: 100%; }
   .pw-bb-lbl { font-size: 10px; font-weight: 600; white-space: nowrap; }
   .pw-bb-item.is-on { color: #fff; background: linear-gradient(140deg, rgba(124,92,255,.95), rgba(91,140,255,.85)); box-shadow: 0 8px 18px -10px rgba(124,92,255,.9); }
 }
+/* ===== Ad frames: force BLACK + click-safe smartlink button (appended; overrides earlier light/cream rules) =====
+Why this exists:
+ - a previous append painted filled slots off-white (.is-live / the "mat"); you want them black, so we win that back with higher specificity + !important.
+ - the smartlink dumps its tracking URL as link text; we hide ANY text the network injects and draw our own label, while keeping the real link stretched over the whole button so clicks still work.
+No :has() tricks that miss, no font-size:0 that eats clicks. */
+
+/* 1) every ad body = near-black, on every screen, beating the old light rules */
+.pw-ad.pw-ad .pw-ad__body,
+.pw-ad.pw-ad .pw-ad__body.is-live,
+.pw-ad.pw-ad:not(.pw-smart) .pw-ad__body:has(img),
+.pw-ad.pw-ad:not(.pw-smart) .pw-ad__body:has(iframe),
+.pw-ad.pw-ad:not(.pw-smart) .pw-ad__body:has(a),
+.pw-ad.pw-ad:not(.pw-smart) .pw-ad__body:has(div) {
+  background: #0c0c12 !important;     /* black mount — never white, never cream */
+  animation: none !important;         /* kill the shimmer once a slot is live */
+  box-shadow: none !important;
+}
+/* a delivered banner image keeps its own pixels; just don't let it overflow the frame */
+.pw-ad__body img, .pw-ad__body iframe { max-width: 100%; display: block; border-radius: 6px; }
+
+/* 2) SMARTLINK: transparent body + our own dark gradient button label */
+.pw-ad.pw-smart .pw-ad__body.is-live {
+  background: transparent !important; box-shadow: none !important;
+  padding: 0 !important; min-height: 52px; position: relative; animation: none !important;
+}
+/* the visible label — sits UNDER the invisible click layer, never steals clicks */
+.pw-ad.pw-smart .pw-ad__body.is-live::after {
+  content: 'Sponsored offer  →';
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Sora', sans-serif; font-weight: 600; font-size: 14px !important;
+  line-height: 1 !important; color: #fff !important; letter-spacing: .01em;
+  border-radius: 12px;
+  background: linear-gradient(120deg, rgba(124,92,255,.18), rgba(232,162,61,.18));
+  border: 1px solid rgba(232,162,61,.42);
+  transition: border-color .2s, background .2s;
+}
+.pw-ad.pw-smart:hover .pw-ad__body.is-live::after {
+  border-color: var(--ochre, #e8a23d);
+  background: linear-gradient(120deg, rgba(124,92,255,.28), rgba(232,162,61,.28));
+}
+/* neutralise whatever the network injected: hide its URL text, keep the box clickable */
+.pw-ad.pw-smart .pw-ad__body.is-live > * {
+  display: block !important; width: 100% !important; min-height: 52px !important;
+  position: relative; z-index: 2;
+  font-size: 0 !important; line-height: 0 !important; color: transparent !important;
+  background: transparent !important;
+}
+/* any anchor anywhere in the smart slot becomes the full-button click layer (text invisible) */
+.pw-ad.pw-smart .pw-ad__body.is-live a {
+  position: absolute !important; inset: 0 !important; z-index: 3 !important;
+  display: block !important;
+  font-size: 0 !important; line-height: 0 !important; color: transparent !important;
+  background: transparent !important; border: 0 !important; padding: 0 !important;
+}
+/* kill any leftover pseudo-labels an earlier rule may have put on that anchor */
+.pw-ad.pw-smart .pw-ad__body.is-live a::before,
+.pw-ad.pw-smart .pw-ad__body.is-live a::after { content: none !important; }
