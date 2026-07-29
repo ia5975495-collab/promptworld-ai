@@ -2,6 +2,7 @@ import { useEffect, useSyncExternalStore } from 'react';
 import { MOCK_PROMPTS } from '@/lib/mockData';
 import { createClient } from '@supabase/supabase-js';
 
+
 export interface PromptItem {
   id: string; title: string; description: string; prompt_text: string; negative_prompt?: string;
   model: string; ai_tool: string; aspect_ratio: string; style: string; image_url: string;
@@ -96,4 +97,15 @@ export async function apiPublish(password: string, p: PromptItem, imageDataUrls:
     if (!r.ok) return { ok: false, error: j.error || 'publish failed' };
     return { ok: true, prompt: j.prompt };
   } catch { return { ok: false, error: 'network' }; }
+}
+// Extract the first image URL from a prompt (handles both single URL and JSON array)
+export function getCoverImage(imageUrl: string): string {
+  if (!imageUrl) return '';
+  try {
+    const parsed = JSON.parse(imageUrl);
+    if (Array.isArray(parsed) && parsed.length > 0) return parsed[0];
+  } catch {
+    // Not JSON, treat as single URL
+  }
+  return imageUrl;
 }

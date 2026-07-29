@@ -6,6 +6,9 @@ import { usePrompts, coverImage } from '@/lib/store';
 import AdSlot from '@/components/AdSlot';
 import { ADS } from '@/lib/ads';
 import MobileCategoryBar from '@/components/MobileCategoryBar';
+import { getCoverImage } from '@/lib/store';
+
+
 
 export default function GalleryPage() {
   const prompts = usePrompts();
@@ -45,7 +48,7 @@ export default function GalleryPage() {
               <Link href={`/prompt/${prompt.id}`} style={{ textDecoration: 'none' }}>
                 <div className="pw-card">
                   <div style={{ position: 'relative', aspectRatio: '3/4' }}>
-                    <img src={coverImage(prompt)} alt={prompt.title} />
+                       <img src={getCoverImage(prompt.image_url)} alt={prompt.title} />
                     {prompt.is_premium && <div style={{ position: 'absolute', top: 12, left: 12, background: 'linear-gradient(120deg,#fbbf24,#f59e0b)', color: '#0a0a0f', padding: '4px 12px', borderRadius: 9999, fontSize: 12, fontWeight: 700 }}>PRO</div>}
                   </div>
                   <div style={{ padding: '1rem' }}>
