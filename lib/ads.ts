@@ -54,7 +54,9 @@ export const ADS = {
 <script src="https://www.highperformanceformat.com/b1046b92a7ef244d82323a5160f441fd/invoke.js"></script>
 `,
   pop: `<script src="https://pl30550650.effectivecpmnetwork.com/73/ce/bf/73cebf3905a7754406499267ba32ae7c.js"></script>
+
 `,
   social: `<script src="https://pl30550651.effectivecpmnetwork.com/88/77/ed/8877ed257f413749eacd593f407fe1a1.js"></script>
+
 `,
 };

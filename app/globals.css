@@ -397,7 +397,9 @@ img { max-width: 100%; }
 .pw-actions > button:active { transform: scale(.88); }
 .pw-actions > div { flex: 0 0 auto !important; margin-left: .25rem !important; }
 
-/* ===== Ad slots — integrated frame + dev placeholder (appended) ===== */
+/* ===== AD SYSTEM — single clean block (replaces all previous ad appends) ===== */
+
+/* --- Frame --- */
 .pw-ad {
   position: relative; margin: 1.25rem 0; padding: 14px 14px 12px;
   background: linear-gradient(180deg, #101019, #0d0d14);
@@ -408,12 +410,37 @@ img { max-width: 100%; }
 .pw-ad::after { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: .5; background-image: radial-gradient(rgba(255,255,255,.04) 1px, transparent 1px); background-size: 14px 14px; -webkit-mask-image: linear-gradient(180deg, transparent, #000 40%); mask-image: linear-gradient(180deg, transparent, #000 40%); }
 .pw-ad:hover { border-color: rgba(232,162,61,.4); transform: translateY(-2px); box-shadow: 0 16px 36px -22px rgba(232,162,61,.5); }
 .pw-ad__tag { position: relative; z-index: 1; display: inline-block; margin-bottom: 10px; font-family: 'Sora', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: #7d7d8c; }
-.pw-ad__body { position: relative; z-index: 1; min-height: 120px; border-radius: 10px; display: flex; align-items: center; justify-content: center; overflow: hidden; background: linear-gradient(100deg, transparent 30%, rgba(255,255,255,.05) 50%, transparent 70%), #0b0b11; background-size: 220% 100%, 100% 100%; background-repeat: no-repeat; animation: pwAdShimmer 2.4s ease-in-out infinite; }
-.pw-ad__body:has(> img), .pw-ad__body:has(> iframe), .pw-ad__body:has(> a), .pw-ad__body:has(> div:not(:empty)) { animation: none; background: transparent; min-height: 0; }
-@keyframes pwAdShimmer { 0% { background-position: 120% 0, 0 0; } 100% { background-position: -120% 0, 0 0; } }
+
+/* --- Body: BLACK by default (empty/waiting) --- */
+.pw-ad__body {
+  position: relative; z-index: 1; min-height: 120px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+  background: #0c0c12;
+  animation: pwAdShimmer 2.4s ease-in-out infinite;
+}
+@keyframes pwAdShimmer { 0% { background-position: 120% 0; } 100% { background-position: -120% 0; } }
+
+/* --- Body: light mat ONLY when a real creative is detected (.is-live) --- */
+.pw-ad:not(.pw-smart) .pw-ad__body.is-live {
+  background: #eceef3; animation: none;
+  padding: 10px; border-radius: 10px;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.06);
+}
+.pw-ad__body.is-live img,
+.pw-ad__body.is-live iframe { background: #fff; border-radius: 6px; display: block; max-width: 100%; }
+.pw-ad__body img, .pw-ad__body iframe { max-width: 100%; display: block; }
+
+/* --- Bare (site-wide scripts: popunder / social bar) --- */
 .pw-ad--bare { display: contents; }
 
-/* the localhost-only "your space" placeholder (alive, on-brand) */
+/* --- Responsive ad ladder: 468 desktop, 320 mobile --- */
+.pw-ad--mob { display: none !important; }
+@media (max-width: 600px) {
+  .pw-ad--dsk { display: none !important; }
+  .pw-ad--mob { display: block !important; }
+}
+
+/* --- Localhost placeholder (the floating AD tile) --- */
 .pw-ad__ph { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 26px 16px; text-align: center; }
 .pw-ad__ph-mark { font-family: 'Sora', sans-serif; font-weight: 800; font-size: 13px; letter-spacing: .08em; color: #fff; width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; background: linear-gradient(140deg, var(--ochre, #e8a23d), #8b5cf6); box-shadow: 0 10px 22px -10px rgba(232,162,61,.7), inset 0 0 14px rgba(255,255,255,.18); animation: pwPhFloat 3.4s ease-in-out infinite; }
 @keyframes pwPhFloat { 0%,100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-4px) rotate(3deg); } }
@@ -422,35 +449,25 @@ img { max-width: 100%; }
 .pw-ad__ph-line::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, var(--ochre, #e8a23d), transparent); transform: translateX(-100%); animation: pwPhSweep 2.2s ease-in-out infinite; }
 @keyframes pwPhSweep { 0% { transform: translateX(-100%); } 60%,100% { transform: translateX(100%); } }
 
-/* ===== ADS + responsive layout layer (appended; safe to re-append) ===== */
-
-/* banner media can never clip/overflow its frame */
-.pw-ad__body img, .pw-ad__body iframe { max-width: 100%; }
-.pw-ad__body img { height: auto; display: block; }
-.pw-ad__body a { display: block; line-height: 0; }
-
-/* responsive ad ladder: 468 on desktop, 320 on phones (same bottom region) */
-.pw-ad--mob { display: none !important; }
-@media (max-width: 600px) {
-  .pw-ad--dsk { display: none !important; }
-  .pw-ad--mob { display: block !important; }
-}
-
-/* smartlink renders as a designed "sponsored offer" button, not an empty frame */
-.pw-smart .pw-ad__body { min-height: 0; animation: none; background: transparent; padding: 2px; }
+/* --- Smartlink: clean click-safe button (no raw URL) --- */
+.pw-smart .pw-ad__body,
+.pw-smart .pw-ad__body.is-live { background: transparent; animation: none; box-shadow: none; padding: 0; min-height: 48px; }
 .pw-smart .pw-ad__body a {
-  display: flex; align-items: center; justify-content: center; gap: 8px; line-height: 1.2;
-  text-decoration: none; color: #fff; font-family: 'Sora', sans-serif; font-weight: 600; font-size: 14px;
-  padding: 13px 16px; border-radius: 12px;
-  background: linear-gradient(120deg, rgba(124,92,255,.16), rgba(232,162,61,.16));
+  display: flex; align-items: center; justify-content: center;
+  min-height: 48px; width: 100%; padding: 12px 16px; box-sizing: border-box;
+  font-size: 0; line-height: 0; color: transparent; text-decoration: none;
+  border-radius: 12px;
+  background: linear-gradient(120deg, rgba(124,92,255,.18), rgba(232,162,61,.18));
   border: 1px solid rgba(232,162,61,.42);
   transition: transform .2s, border-color .2s, background .2s;
 }
-.pw-smart .pw-ad__body a:hover { transform: translateY(-2px); border-color: var(--ochre,#e8a23d); background: linear-gradient(120deg, rgba(124,92,255,.26), rgba(232,162,61,.26)); }
-.pw-smart .pw-ad__body a:empty::after { content: 'View sponsored offer →'; }
+.pw-smart .pw-ad__body a:hover { transform: translateY(-2px); border-color: var(--ochre,#e8a23d); background: linear-gradient(120deg, rgba(124,92,255,.28), rgba(232,162,61,.28)); }
+.pw-smart .pw-ad__body a::after { content: 'Sponsored offer  →'; font-family: 'Sora', sans-serif; font-weight: 600; font-size: 14px; line-height: 1; color: #fff; letter-spacing: .01em; }
+.pw-smart .pw-ad__body a img { display: none !important; }
 
-/* right ad rail + premium promo card */
+/* --- Right ad rail + premium promo card --- */
 .pw-rightrail { width: 300px; flex-shrink: 0; position: sticky; top: 100px; height: fit-content; display: flex; flex-direction: column; gap: 1rem; }
+@media (max-width: 1100px) { .pw-rightrail { display: none !important; } }
 .pw-promo { position: relative; padding: 1.25rem; border-radius: 16px; overflow: hidden; background: linear-gradient(160deg, #15131f, #0e0d15); border: 1px solid var(--line); transition: transform .3s, border-color .3s, box-shadow .3s; }
 .pw-promo::before { content: ''; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(120% 80% at 100% 0%, rgba(232,162,61,.14), transparent 55%), radial-gradient(100% 80% at 0% 100%, rgba(124,92,255,.14), transparent 55%); }
 .pw-promo::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--ochre,#e8a23d), #8b5cf6, transparent); }
@@ -459,10 +476,9 @@ img { max-width: 100%; }
 .pw-promo__kicker { font-family: 'Sora', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--ochre,#e8a23d); }
 .pw-promo__title { font-family: 'Sora', sans-serif; font-size: 18px; font-weight: 700; color: #fff; margin: .5rem 0; line-height: 1.2; }
 .pw-promo__text { color: var(--muted); font-size: 13px; line-height: 1.55; margin: 0 0 1rem; }
-@media (max-width: 1100px) { .pw-rightrail { display: none !important; } }
 
-/* editorial masthead (home) */
-:root { --ochre:#e8a23d; --paper:#f4f1ea; }
+/* --- Editorial masthead (home hero) --- */
+:root { --ochre: #e8a23d; --paper: #f4f1ea; }
 .pw-masthead { background: var(--panel); border: 1px solid var(--line); border-radius: 24px; padding: clamp(1.6rem,3vw,2.6rem); position: relative; overflow: hidden; }
 .pw-masthead::before { content: ''; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(120% 90% at 100% 0%, rgba(232,162,61,.10), transparent 55%), radial-gradient(90% 80% at 0% 100%, rgba(124,92,255,.10), transparent 60%); }
 .pw-masthead > * { position: relative; z-index: 1; }
@@ -480,86 +496,3 @@ img { max-width: 100%; }
 .pw-contents__leader { flex: 1; border-bottom: 1px dotted #2c2c3a; transform: translateY(-3px); }
 .pw-contents__num { font-family: 'Fraunces', Georgia, serif; font-variant-numeric: tabular-nums; color: var(--ochre); font-size: 13px; }
 @media (max-width: 760px) { .pw-masthead__grid { grid-template-columns: 1fr; } .pw-contents { border-left: none; border-top: 1px solid var(--line); padding-left: 0; padding-top: 1.2rem; margin-top: 1.4rem; } }
-
-/* live ticker */
-.pw-ticker { overflow: hidden; border-top: 1px solid #1c1c27; border-bottom: 1px solid #1c1c27; padding: 12px 0; margin: 0 0 2rem; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
-.pw-ticker__track { display: inline-flex; gap: 34px; white-space: nowrap; animation: marquee 28s linear infinite; }
-.pw-ticker:hover .pw-ticker__track { animation-play-state: paused; }
-.pw-ticker__item { font-family: 'Sora', sans-serif; font-size: 13px; letter-spacing: .04em; color: #8a8a99; display: inline-flex; align-items: center; gap: 9px; }
-.pw-ticker__dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent,#7c5cff); }
-@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-
-/* mobile fold: sidebar -> bottom bar, grids -> 1/2 col */
-.pw-bottombar { display: none; }
-@media (max-width: 820px) {
-  .pw-page { flex-direction: column !important; padding: 1rem !important; gap: 1.25rem !important; }
-  .pw-page > aside.pw-catside { display: none !important; }
-  .pw-grid { grid-template-columns: repeat(2, 1fr) !important; gap: .7rem !important; }
-  body { padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)); }
-  .pw-bottombar { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; background: rgba(10,10,15,.94); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-top: 1px solid var(--line); padding: 6px 8px calc(7px + env(safe-area-inset-bottom,0px)); box-shadow: 0 -14px 30px -22px rgba(0,0,0,.9); }
-  .pw-bottombar__track { display: flex; gap: 6px; width: 100%; padding: 2px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-  .pw-bottombar__track::-webkit-scrollbar { display: none; }
-  .pw-bb-item { flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; gap: 3px; border: none; background: transparent; color: #7d7d8c; cursor: pointer; padding: 7px 13px; border-radius: 13px; font-family: 'Sora', sans-serif; transition: color .2s, background .25s, transform .12s; }
-  .pw-bb-item:active { transform: scale(.92); }
-  .pw-bb-ico { font-size: 18px; line-height: 1; }
-  .pw-bb-lbl { font-size: 10px; font-weight: 600; white-space: nowrap; }
-  .pw-bb-item.is-on { color: #fff; background: linear-gradient(140deg, rgba(124,92,255,.95), rgba(91,140,255,.85)); box-shadow: 0 8px 18px -10px rgba(124,92,255,.9); }
-}
-/* ===== Ad frames: force BLACK + click-safe smartlink button (appended; overrides earlier light/cream rules) =====
-Why this exists:
- - a previous append painted filled slots off-white (.is-live / the "mat"); you want them black, so we win that back with higher specificity + !important.
- - the smartlink dumps its tracking URL as link text; we hide ANY text the network injects and draw our own label, while keeping the real link stretched over the whole button so clicks still work.
-No :has() tricks that miss, no font-size:0 that eats clicks. */
-
-/* 1) every ad body = near-black, on every screen, beating the old light rules */
-.pw-ad.pw-ad .pw-ad__body,
-.pw-ad.pw-ad .pw-ad__body.is-live,
-.pw-ad.pw-ad:not(.pw-smart) .pw-ad__body:has(img),
-.pw-ad.pw-ad:not(.pw-smart) .pw-ad__body:has(iframe),
-.pw-ad.pw-ad:not(.pw-smart) .pw-ad__body:has(a),
-.pw-ad.pw-ad:not(.pw-smart) .pw-ad__body:has(div) {
-  background: #0c0c12 !important;     /* black mount — never white, never cream */
-  animation: none !important;         /* kill the shimmer once a slot is live */
-  box-shadow: none !important;
-}
-/* a delivered banner image keeps its own pixels; just don't let it overflow the frame */
-.pw-ad__body img, .pw-ad__body iframe { max-width: 100%; display: block; border-radius: 6px; }
-
-/* 2) SMARTLINK: transparent body + our own dark gradient button label */
-.pw-ad.pw-smart .pw-ad__body.is-live {
-  background: transparent !important; box-shadow: none !important;
-  padding: 0 !important; min-height: 52px; position: relative; animation: none !important;
-}
-/* the visible label — sits UNDER the invisible click layer, never steals clicks */
-.pw-ad.pw-smart .pw-ad__body.is-live::after {
-  content: 'Sponsored offer  →';
-  position: absolute; inset: 0; z-index: 1; pointer-events: none;
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Sora', sans-serif; font-weight: 600; font-size: 14px !important;
-  line-height: 1 !important; color: #fff !important; letter-spacing: .01em;
-  border-radius: 12px;
-  background: linear-gradient(120deg, rgba(124,92,255,.18), rgba(232,162,61,.18));
-  border: 1px solid rgba(232,162,61,.42);
-  transition: border-color .2s, background .2s;
-}
-.pw-ad.pw-smart:hover .pw-ad__body.is-live::after {
-  border-color: var(--ochre, #e8a23d);
-  background: linear-gradient(120deg, rgba(124,92,255,.28), rgba(232,162,61,.28));
-}
-/* neutralise whatever the network injected: hide its URL text, keep the box clickable */
-.pw-ad.pw-smart .pw-ad__body.is-live > * {
-  display: block !important; width: 100% !important; min-height: 52px !important;
-  position: relative; z-index: 2;
-  font-size: 0 !important; line-height: 0 !important; color: transparent !important;
-  background: transparent !important;
-}
-/* any anchor anywhere in the smart slot becomes the full-button click layer (text invisible) */
-.pw-ad.pw-smart .pw-ad__body.is-live a {
-  position: absolute !important; inset: 0 !important; z-index: 3 !important;
-  display: block !important;
-  font-size: 0 !important; line-height: 0 !important; color: transparent !important;
-  background: transparent !important; border: 0 !important; padding: 0 !important;
-}
-/* kill any leftover pseudo-labels an earlier rule may have put on that anchor */
-.pw-ad.pw-smart .pw-ad__body.is-live a::before,
-.pw-ad.pw-smart .pw-ad__body.is-live a::after { content: none !important; }

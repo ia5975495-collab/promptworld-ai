@@ -108,8 +108,6 @@ export default function Home() {
 
       {/* RIGHT rail: native ad + smartlink + premium promo */}
       <aside className="pw-rightrail">
-        <AdSlot code={ADS.right} label="Sponsored" />
-        <AdSlot code={ADS.smart} label="Sponsored partner" className="pw-smart" />
         <div className="pw-promo">
           <span className="pw-promo__kicker">PromptWorld+</span>
           <h4 className="pw-promo__title">Unlock the full archive</h4>

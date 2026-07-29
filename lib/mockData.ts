@@ -122,12 +122,12 @@ export const MOCK_PROMPTS = [
 ];
 
 export const CATEGORIES = [
-  { name: 'Realistic', icon: '📷', count: 2847 },
-  { name: 'Anime', icon: '🎨', count: 1923 },
-  { name: 'Interior', icon: '🏠', count: 856 },
-  { name: 'Luxury', icon: '💎', count: 945 },
-  { name: 'Cars', icon: '🏎️', count: 567 },
-  { name: 'Food', icon: '🍕', count: 1234 },
-  { name: 'Fantasy', icon: '🧙', count: 1567 },
-  { name: 'Portrait', icon: '👤', count: 2134 },
+  { name: 'profile photo', icon: '📸', count: 2847 },
+  { name: 'Anime',         icon: '🎨', count: 1923 },
+  { name: 'girls',         icon: '👩', count: 856 },
+  { name: 'Boys',          icon: '👨', count: 945 },
+  { name: 'Couples',       icon: '💑', count: 567 },
+  { name: 'Wallpaper',     icon: '🖼️', count: 1234 },
+  { name: 'Fantasy',       icon: '🧙', count: 1567 },
+  { name: 'Portrait',      icon: '👤', count: 2134 },
 ];
