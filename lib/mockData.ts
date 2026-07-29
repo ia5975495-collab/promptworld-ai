@@ -1,9 +1,9 @@
 export const MOCK_PROMPTS = [];
 
 export const CATEGORIES = [
-  { name: 'Profile Pictrue', icon: '📸', count: 2847 },
+  { name: 'Asthetic', icon: '📸', count: 2847 },
   { name: 'Boys',          icon: '👨', count: 945 },
-  { name: 'girls',         icon: '👩', count: 856 },
+  { name: 'Girls',         icon: '👩', count: 856 },
   { name: 'Couples',       icon: '💑', count: 567 },
   { name: 'Wallpaper',     icon: '🖼️', count: 1234 },
   { name: 'Realistic',       icon: '🧙', count: 1567 },

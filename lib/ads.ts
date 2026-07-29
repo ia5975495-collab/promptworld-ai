@@ -16,6 +16,17 @@
 // ============================================================
 
 export const ADS = {
+   topThin: `<script>
+  atOptions = {
+    'key' : '0572a97365c25eeccb4dd15c559df7e3',
+    'format' : 'iframe',
+    'height' : 250,
+    'width' : 300,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/0572a97365c25eeccb4dd15c559df7e3/invoke.js"></script>
+`,
   left: `<script>
   atOptions = {
     'key' : 'a40381fe7ebcb61d2b1bac0991c3c4ce',
