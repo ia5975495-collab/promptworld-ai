@@ -2,18 +2,17 @@
 import { useParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { usePrompt } from '@/lib/store';
-
+import { usePrompt, allImages } from '@/lib/store';
 export default function PromptDetailPage() {
   const params = useParams();
   const id = params.id as string;
   const { prompt, loading } = usePrompt(id);
-
+  const [idx, setIdx] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
   const [likesCount, setLikesCount] = useState(0);
   const [sharesCount, setSharesCount] = useState(0);
   const [copied, setCopied] = useState(false);
-
+  useEffect(() => { setIdx(0); }, [id]);
   useEffect(() => {
     if (!prompt) return;
     const liked = JSON.parse(localStorage.getItem('likedPrompts') || '[]');
@@ -21,7 +20,10 @@ export default function PromptDetailPage() {
     setLikesCount(prompt.likes_count || 0);
     setSharesCount(prompt.downloads_count || 0);
   }, [prompt, id]);
-
+  const imgs = prompt ? allImages(prompt) : [];
+  const has = imgs.length > 0;
+  const prev = () => setIdx((i) => (i - 1 + imgs.length) % imgs.length);
+  const next = () => setIdx((i) => (i + 1) % imgs.length);
   const handleLike = () => {
     const liked = JSON.parse(localStorage.getItem('likedPrompts') || '[]');
     if (isLiked) { localStorage.setItem('likedPrompts', JSON.stringify(liked.filter((x: string) => x !== id))); setLikesCount((n) => n - 1); }
@@ -41,16 +43,34 @@ export default function PromptDetailPage() {
     catch { const ta = document.createElement('textarea'); ta.value = prompt.prompt_text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); }
     setCopied(true); setTimeout(() => setCopied(false), 2000);
   };
-
   if (loading) return <div style={{ padding: '4rem', color: 'var(--muted)', textAlign: 'center' }}>Loading…</div>;
   if (!prompt) return <div style={{ padding: '4rem', textAlign: 'center', color: '#fff' }}><h1>Prompt not found</h1><Link href="/gallery" style={{ color: '#b9a7ff' }}>← Back to Gallery</Link></div>;
-
   return (
     <div className="pw-page" style={{ maxWidth: 1280, margin: '0 auto', padding: '2rem', color: '#fff' }}>
       <Link href="/gallery" style={{ color: 'var(--muted)', textDecoration: 'none', fontSize: 14, display: 'inline-block', marginBottom: '1.5rem' }}>← Back to Gallery</Link>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
         <div>
-          <div style={{ borderRadius: 18, overflow: 'hidden', border: '1px solid var(--line)' }}><img src={prompt.image_url} alt={prompt.title} style={{ width: '100%', aspectRatio: '3/4', objectFit: 'cover' }} /></div>
+          {has ? (
+            <div className="pw-carousel">
+              <div className="pw-carousel__viewport">
+                <img src={imgs[idx] || imgs[0]} alt={prompt.title} style={{ width: '100%', aspectRatio: '3/4', objectFit: 'cover', display: 'block' }} />
+                {imgs.length > 1 && (
+                  <>
+                    <button type="button" className="pw-carousel__nav pw-carousel__nav--prev" aria-label="Previous image" onClick={prev}>‹</button>
+                    <button type="button" className="pw-carousel__nav pw-carousel__nav--next" aria-label="Next image" onClick={next}>›</button>
+                  </>
+                )}
+              </div>
+              {imgs.length > 1 && (
+                <div className="pw-carousel__foot">
+                  <div className="pw-carousel__dots">{imgs.map((_, i) => (<button key={i} type="button" aria-label={`Image ${i + 1}`} className={`pw-carousel__dot${i === idx ? ' is-on' : ''}`} onClick={() => setIdx(i)} />))}</div>
+                  <span className="pw-carousel__count">{idx + 1} / {imgs.length}</span>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div style={{ borderRadius: 18, border: '1px solid var(--line)', aspectRatio: '3/4', display: 'grid', placeItems: 'center', color: 'var(--muted)' }}>No image</div>
+          )}
           <div className="pw-actions" style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginTop: '1rem', padding: '1rem 0', borderTop: '1px solid var(--line)' }}>
             <button onClick={handleLike} title={isLiked ? 'Unlike' : 'Like'} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 28, padding: 8 }}>{isLiked ? '❤️' : '🤍'}</button>
             <button onClick={handleShare} title="Share" style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 28, padding: 8 }}>✈️</button>

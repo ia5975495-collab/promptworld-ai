@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { CATEGORIES } from '@/lib/mockData';
-import { usePrompts } from '@/lib/store';
+import { usePrompts, coverImage } from '@/lib/store';
 import AdSlot from '@/components/AdSlot';
 import { ADS } from '@/lib/ads';
 import MobileCategoryBar from '@/components/MobileCategoryBar';
@@ -86,7 +86,7 @@ export default function Home() {
               <Link href={`/prompt/${prompt.id}`} style={{ textDecoration: 'none' }}>
                 <div className="pw-card">
                   <div style={{ position: 'relative', aspectRatio: '3/4' }}>
-                    <img src={prompt.image_url} alt={prompt.title} />
+                    <img src={coverImage(prompt)} alt={prompt.title} />
                     {prompt.is_premium && <div style={{ position: 'absolute', top: 12, left: 12, background: 'linear-gradient(120deg,#fbbf24,#f59e0b)', color: '#0a0a0f', padding: '4px 12px', borderRadius: 9999, fontSize: 12, fontWeight: 700 }}>PRO</div>}
                     <div style={{ position: 'absolute', top: 12, right: 12, background: 'rgba(8,8,12,.7)', backdropFilter: 'blur(6px)', color: '#fff', padding: '4px 10px', borderRadius: 9999, fontSize: 11 }}>{prompt.ai_tool}</div>
                   </div>
