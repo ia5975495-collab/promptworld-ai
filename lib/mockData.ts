@@ -1,7 +1,7 @@
 export const MOCK_PROMPTS = [];
 
 export const CATEGORIES = [
-  { name: 'Asthetic', icon: '📸', count: 2847 },
+  { name: 'Aesthetic', icon: '📸', count: 2847 },
   { name: 'Boys',          icon: '👨', count: 945 },
   { name: 'Girls',         icon: '👩', count: 856 },
   { name: 'Couples',       icon: '💑', count: 567 },
