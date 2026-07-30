@@ -1,3 +1,4 @@
+'use client';
 import { useEffect, useSyncExternalStore } from 'react';
 import { MOCK_PROMPTS } from '@/lib/mockData';
 import { createClient } from '@supabase/supabase-js';
