@@ -1,10 +1,10 @@
-import { getAllPrompts } from '@/lib/store';
+import { getServerPrompts } from '@/lib/server-prompts';
 import type { Metadata } from 'next';
 import PromptDetailClient from './PromptDetailClient';
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
-  const prompts = getAllPrompts();
+  const prompts = await getServerPrompts();
   const prompt = prompts.find((p) => p.id === id);
 
   if (!prompt) {
