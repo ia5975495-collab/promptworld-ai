@@ -64,7 +64,7 @@ export default function RootLayout({
         {/* 1. Load the Google Analytics library */}
         <Script
           strategy="afterInteractive"
-          src={`https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX`} // REPLACE G-XXXXXXXXXX WITH YOUR ID
+          src="https://www.googletagmanager.com/gtag/js?id=G-JJRK269QEZ" // REPLACE G-XXXXXXXXXX WITH YOUR ID
         />
         
         {/* 2. Initialize Google Analytics */}
