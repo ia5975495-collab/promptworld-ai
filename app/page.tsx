@@ -6,6 +6,7 @@ import AdSlot from '@/components/AdSlot';
 import { ADS } from '@/lib/ads';
 import MobileCategoryBar from '@/components/MobileCategoryBar';
 import { usePrompts, getCoverImage, hasMultipleImages } from '@/lib/store';
+import Image from 'next/image';
 
    
 
