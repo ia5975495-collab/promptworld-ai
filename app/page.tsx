@@ -2,11 +2,10 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { CATEGORIES } from '@/lib/mockData';
-import { usePrompts } from '@/lib/store';
 import AdSlot from '@/components/AdSlot';
 import { ADS } from '@/lib/ads';
 import MobileCategoryBar from '@/components/MobileCategoryBar';
-import { getCoverImage } from '@/lib/store';
+import { usePrompts, getCoverImage, hasMultipleImages } from '@/lib/store';
 
    
 
@@ -70,8 +69,28 @@ export default function Home() {
       <div className="pw-card">
         {/* --- IMAGE CONTAINER (FIXED) --- */}
         <div style={{ position: 'relative', aspectRatio: '3/4' }}>
-          <img src={getCoverImage(prompt.image_url)} alt={prompt.title} /> 
-          
+          <img src={getCoverImage(prompt.image_url)} alt={prompt.title} style={{width:'100%',height:'100%',objectFit:'contain'}} /> 
+           {hasMultipleImages(prompt.image_url) && (
+    <div style={{
+      position: 'absolute',
+      top: 12,
+      right: 12,
+      width: 28,
+      height: 28,
+      background: 'rgba(0, 0, 0, 0.7)',
+      backdropFilter: 'blur(8px)',
+      borderRadius: 8,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      border: '1px solid rgba(255, 255, 255, 0.2)'
+    }}>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+        <rect x="7" y="7" width="14" height="14" rx="2" ry="2" opacity="0.7"/>
+      </svg>
+    </div>
+  )}
           {prompt.is_premium && (
             <div style={{ 
               position: 'absolute', 

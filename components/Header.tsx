@@ -11,12 +11,7 @@ export default function Header() {
     <header className="pw-hdr">
       <div className="pw-hdr__inner">
         <Link href="/" className="pw-brand" aria-label="PromptWorld AI home">
-          <span className="pw-brand__mark" aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z" fill="#fff" />
-            </svg>
-          </span>
-          <span className="pw-brand__text">PromptWorld AI</span>
+         <img src="/logo.png" alt="PromptWorld AI" style={{ height: '80px', width: 'auto' }} />
         </Link>
 
         <nav className="pw-nav" aria-label="Primary">

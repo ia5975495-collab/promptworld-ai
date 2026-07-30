@@ -101,11 +101,39 @@ export async function apiPublish(password: string, p: PromptItem, imageDataUrls:
 // Extract the first image URL from a prompt (handles both single URL and JSON array)
 export function getCoverImage(imageUrl: string): string {
   if (!imageUrl) return '';
+  
+  // Try JSON array format
   try {
     const parsed = JSON.parse(imageUrl);
-    if (Array.isArray(parsed) && parsed.length > 0) return parsed[0];
+    if (Array.isArray(parsed) && parsed.length > 0) {
+      return parsed[0];
+    }
   } catch {
-    // Not JSON, treat as single URL
+    // Not JSON, continue
   }
+  
+  // Try ||| separator format
+  if (imageUrl.includes('|||')) {
+    return imageUrl.split('|||')[0].trim();
+  }
+  
+  // Single URL
   return imageUrl;
+}
+
+export function hasMultipleImages(imageUrl: string): boolean {
+  if (!imageUrl) return false;
+  
+  // Check JSON array format
+  try {
+    const parsed = JSON.parse(imageUrl);
+    if (Array.isArray(parsed) && parsed.length > 1) return true;
+  } catch {
+    // Not JSON, continue
+  }
+  
+  // Check ||| separator format
+  if (imageUrl.includes('|||')) return true;
+  
+  return false;
 }
