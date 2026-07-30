@@ -18,40 +18,33 @@
 export const ADS = {
    topThin: `<script>
   atOptions = {
-    'key' : '0572a97365c25eeccb4dd15c559df7e3',
-    'format' : 'iframe',
-    'height' : 250,
-    'width' : 300,
-    'params' : {}
-  };
-</script>
-<script src="https://www.highperformanceformat.com/0572a97365c25eeccb4dd15c559df7e3/invoke.js"></script>
-`,
-  left: `<script>
-  atOptions = {
-    'key' : 'a40381fe7ebcb61d2b1bac0991c3c4ce',
-    'format' : 'iframe',
-    'height' : 300,
-    'width' : 160,
-    'params' : {}
-  };
-</script>
-<script src="https://www.highperformanceformat.com/a40381fe7ebcb61d2b1bac0991c3c4ce/invoke.js"></script>
-`,
-  right: `<script async="async" data-cfasync="false" src="https://pl30550652.effectivecpmnetwork.com/4b09122a00629a80aacda2204d2eedec/invoke.js"></script>
-<div id="container-4b09122a00629a80aacda2204d2eedec"></div>
-`,
-  smart: `https://www.effectivecpmnetwork.com/cxmr7gq1?key=8b44a538be7fa0dd8a0fb526e1269543`,
-  bottom: `<script>
-  atOptions = {
-    'key' : '88d9bb6eb75c780213bf82dc5159a497',
+    'key' : '945f3e64ea48d7eee74f1781fdfd9951',
     'format' : 'iframe',
     'height' : 60,
     'width' : 468,
     'params' : {}
   };
 </script>
-<script src="https://www.highperformanceformat.com/88d9bb6eb75c780213bf82dc5159a497/invoke.js"></script>
+<script src="https://www.highperformanceformat.com/945f3e64ea48d7eee74f1781fdfd9951/invoke.js"></script>
+`,
+  left: `<script>
+  atOptions = {
+    'key' : '5a618e75cf4f19185a0ec1ba6a2ddb43',
+    'format' : 'iframe',
+    'height' : 50,
+    'width' : 320,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/5a618e75cf4f19185a0ec1ba6a2ddb43/invoke.js"></script>
+`,
+  right: `<script async="async" data-cfasync="false" src="https://pl30550652.effectivecpmnetwork.com/4b09122a00629a80aacda2204d2eedec/invoke.js"></script>
+<div id="container-4b09122a00629a80aacda2204d2eedec"></div>
+`,
+  smart: `https://www.effectivecpmnetwork.com/cxmr7gq1?key=8b44a538be7fa0dd8a0fb526e1269543`,
+  bottom: `<script async="async" data-cfasync="false" src="https://pl30593811.effectivecpmnetwork.com/ccc919cfe979b5e9a28f025954dde80d/invoke.js"></script>
+<div id="container-ccc919cfe979b5e9a28f025954dde80d"></div>
+
 `,
   bottomM: `<script>
   atOptions = {
@@ -64,10 +57,12 @@ export const ADS = {
 </script>
 <script src="https://www.highperformanceformat.com/b1046b92a7ef244d82323a5160f441fd/invoke.js"></script>
 `,
-  pop: `<script src="https://pl30550650.effectivecpmnetwork.com/73/ce/bf/73cebf3905a7754406499267ba32ae7c.js"></script>
+  pop: `<script src="https://pl30593808.effectivecpmnetwork.com/48/c6/7e/48c67e6ae0eb4dfc9dae2bc65af5a5c5.js"></script>
+
 
 `,
-  social: `<script src="https://pl30550651.effectivecpmnetwork.com/88/77/ed/8877ed257f413749eacd593f407fe1a1.js"></script>
+  social: `<script src="https://pl30593808.effectivecpmnetwork.com/48/c6/7e/48c67e6ae0eb4dfc9dae2bc65af5a5c5.js"></script>
+
 
 `,
 };
