@@ -3,6 +3,41 @@ import { useParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePrompt, allImages } from '@/lib/store';
+import { getAllPrompts } from '@/lib/store'; // Make sure this is imported
+import type { Metadata } from 'next';
+
+// This dynamically generates SEO tags for every single prompt page
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
+  const prompts = getAllPrompts();
+  const prompt = prompts.find((p) => p.id === id);
+
+  if (!prompt) {
+    return { title: 'Prompt Not Found | PromptWorld AI' };
+  }
+
+  return {
+    title: `${prompt.title} - AI Prompt | PromptWorld AI`,
+    description: `${prompt.description}. Generated with ${prompt.ai_tool} (${prompt.model}). Copy this ${prompt.style} prompt for free.`,
+    keywords: [prompt.category, prompt.style, prompt.ai_tool, 'AI prompt', 'copy prompt', 'Midjourney prompt'],
+    openGraph: {
+      title: `${prompt.title} - AI Prompt`,
+      description: prompt.description,
+      url: `https://promptworld.store/prompt/${prompt.id}`, // REPLACE WITH YOUR ACTUAL DOMAIN
+      siteName: 'PromptWorld AI',
+      images: [
+        {
+          url: prompt.image_url,
+          width: 800,
+          height: 600,
+          alt: prompt.title,
+        },
+      ],
+      locale: 'en_US',
+      type: 'website',
+    },
+  };
+}
 export default function PromptDetailPage() {
   const params = useParams();
   const id = params.id as string;

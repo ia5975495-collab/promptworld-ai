@@ -1,32 +1,88 @@
 import type { Metadata } from 'next';
-import Script from 'next/script';
+import Script from 'next/script'; // <-- ADD THIS LINE
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
-  title: 'PromptWorld AI',
-  description: 'Premium AI Prompt Gallery',
+  title: {
+    default: 'PromptWorld AI - Premium AI Prompt Gallery & Marketplace',
+    template: '%s | PromptWorld AI',
+  },
+  description: 'Discover, copy, and generate with thousands of curated, production-ready AI prompts for Midjourney, DALL-E 3, Stable Diffusion, and Flux. The ultimate prompt library for creators.',
+  keywords: ['AI prompts', 'Midjourney prompts', 'DALL-E 3 prompts', 'Stable Diffusion', 'Flux prompts', 'AI art generator', 'prompt library', 'AI prompt gallery'],
+  authors: [{ name: 'PromptWorld AI' }],
+  creator: 'PromptWorld AI',
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://promptworld.store', // REPLACE WITH YOUR ACTUAL DOMAIN
+    siteName: 'PromptWorld AI',
+    title: 'PromptWorld AI - Premium AI Prompt Gallery',
+    description: 'Discover, copy, and generate with thousands of curated AI prompts.',
+    images: [
+      {
+        url: '/og-image.jpg', // You can add a nice screenshot of your site to the public folder later
+        width: 1200,
+        height: 630,
+        alt: 'PromptWorld AI Gallery',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'PromptWorld AI',
+    description: 'The ultimate curated library of production-ready AI prompts.',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body>
-        {/* Google Analytics — runs on every page automatically */}
+        
+        {/* ========================================== */}
+        {/* GOOGLE ANALYTICS CODE START                */}
+        {/* ========================================== */}
+        
+        {/* 1. Load the Google Analytics library */}
         <Script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=G-JJRK269QEZ"
           strategy="afterInteractive"
+          src={`https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX`} // REPLACE G-XXXXXXXXXX WITH YOUR ID
         />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-JJRK269QEZ');
-          `}
-        </Script>
+        
+        {/* 2. Initialize Google Analytics */}
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-XXXXXXXXXX'); // REPLACE G-XXXXXXXXXX WITH YOUR ID
+            `,
+          }}
+        />
+
+        {/* ========================================== */}
+        {/* GOOGLE ANALYTICS CODE END                  */}
+        {/* ========================================== */}
 
         <Header />
         <main style={{ paddingTop: 0, minHeight: '100vh' }}>
