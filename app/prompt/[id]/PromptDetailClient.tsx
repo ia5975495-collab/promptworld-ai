@@ -2,6 +2,8 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePrompt, allImages } from '@/lib/store';
+import AdSlot from '@/components/AdSlot';
+import { ADS } from '@/lib/ads';
 
 export default function PromptDetailClient({ id }: { id: string }) {
   const { prompt, loading } = usePrompt(id);
@@ -111,8 +113,21 @@ export default function PromptDetailClient({ id }: { id: string }) {
             </div>
           </div>
           <a href="https://your-image-generator-website.com" target="_blank" rel="noopener noreferrer" className="pw-btn-primary" style={{ width: '100%', justifyContent: 'center', padding: 16, fontSize: 16 }}>🎨 Generate from Image Generator</a>
+          
+          {/* AD PLACEMENT 1: Below the Generate button (Right Column) */}
+          <div style={{ marginTop: '2rem' }}>
+            <AdSlot code={ADS.bottom} label="Sponsored" className="pw-ad--dsk" />
+            <AdSlot code={ADS.bottomM} label="Sponsored" className="pw-ad--mob" />
+          </div>
         </div>
       </div>
+
+      {/* AD PLACEMENT 2: Full width at the very bottom of the page */}
+      <div style={{ marginTop: '3rem', maxWidth: '970px', margin: '3rem auto 0' }}>
+        <AdSlot code={ADS.bottom} label="Sponsored" className="pw-ad--dsk" />
+        <AdSlot code={ADS.bottomM} label="Sponsored" className="pw-ad--mob" />
+      </div>
+
     </div>
   );
 }
