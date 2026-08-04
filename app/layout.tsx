@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
-import Script from 'next/script'; // <-- ADD THIS LINE
+import Script from 'next/script';
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
- icons: {
+  icons: {
     icon: '/favicon.png',
   },
   title: {
@@ -20,13 +20,13 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://promptworld.store', // REPLACE WITH YOUR ACTUAL DOMAIN
+    url: 'https://promptworld.store',
     siteName: 'PromptWorld AI',
     title: 'PromptWorld AI - Premium AI Prompt Gallery',
     description: 'Discover, copy, and generate with thousands of curated AI prompts.',
     images: [
       {
-        url: '/og-image.jpg', // You can add a nice screenshot of your site to the public folder later
+        url: '/og-image.jpg',
         width: 1200,
         height: 630,
         alt: 'PromptWorld AI Gallery',
@@ -52,7 +52,6 @@ export const metadata: Metadata = {
   other: {
     'google-adsense-account': 'ca-pub-5411995794134337',
   },
-
 };
 
 export default function RootLayout({
@@ -62,7 +61,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <meta name="google-site-verification" content="4EAJ4Vn_ye4qZyBlKOcXIdGiv7sXdlsc0ule_ifuMCo" />
+      <head>
+        <meta name="google-site-verification" content="4EAJ4Vn_ye4qZyBlKOcXIdGiv7sXdlsc0ule_ifuMCo" />
+      </head>
       <body>
         
         {/* ========================================== */}
@@ -72,7 +73,7 @@ export default function RootLayout({
         {/* 1. Load the Google Analytics library */}
         <Script
           strategy="afterInteractive"
-          src="https://www.googletagmanager.com/gtag/js?id=G-JJRK269QEZ" // REPLACE G-XXXXXXXXXX WITH YOUR ID
+          src="https://www.googletagmanager.com/gtag/js?id=G-JJRK269QEZ"
         />
         
         {/* 2. Initialize Google Analytics */}
@@ -84,7 +85,7 @@ export default function RootLayout({
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', 'G-XXXXXXXXXX'); // REPLACE G-XXXXXXXXXX WITH YOUR ID
+              gtag('config', 'G-JJRK269QEZ');
             `,
           }}
         />
