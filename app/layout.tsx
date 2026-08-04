@@ -5,10 +5,14 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
+ icons: {
+    icon: '/favicon.png',
+  },
   title: {
     default: 'PromptWorld AI - Premium AI Prompt Gallery & Marketplace',
     template: '%s | PromptWorld AI',
   },
+  applicationName: 'Prompt World AI',
   description: 'Discover, copy, and generate with thousands of curated, production-ready AI prompts for Midjourney, DALL-E 3, Stable Diffusion, and Flux. The ultimate prompt library for creators.',
   keywords: ['AI prompts', 'Midjourney prompts', 'DALL-E 3 prompts', 'Stable Diffusion', 'Flux prompts', 'AI art generator', 'prompt library', 'AI prompt gallery'],
   authors: [{ name: 'PromptWorld AI' }],
