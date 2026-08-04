@@ -32,10 +32,16 @@ export const ADS = {
   right: `<script async="async" data-cfasync="false" src="https://pl30550652.effectivecpmnetwork.com/4b09122a00629a80aacda2204d2eedec/invoke.js"></script>
 <div id="container-4b09122a00629a80aacda2204d2eedec"></div>
 `,
-  smart: `https://www.effectivecpmnetwork.com/cxmr7gq1?key=8b44a538be7fa0dd8a0fb526e1269543`,
-  bottom: `<script async="async" data-cfasync="false" src="https://pl30593811.effectivecpmnetwork.com/ccc919cfe979b5e9a28f025954dde80d/invoke.js"></script>
-<div id="container-ccc919cfe979b5e9a28f025954dde80d"></div>
-
+  smart: `<script>
+  atOptions = {
+    'key' : '945f3e64ea48d7eee74f1781fdfd9951',
+    'format' : 'iframe',
+    'height' : 60,
+    'width' : 468,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/945f3e64ea48d7eee74f1781fdfd9951/invoke.js"></script>
 `,
   bottomM: `<script>
   atOptions = {
