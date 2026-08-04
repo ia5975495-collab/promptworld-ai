@@ -40,7 +40,7 @@ export default function Home() {
         
         {/* Left Ad Slot */}
         <div style={{ marginTop: '2rem' }}>
-           <AdSlot code={ADS.left} label="Sponsored" />
+           <AdSlot code={ADS.left} label="Sponsored" className="pw-ad--dsk"  />
         </div>
       </aside>
 
@@ -48,7 +48,7 @@ export default function Home() {
       <main style={{ flex: 1, minWidth: 0 }}>
         
         {/* 1. THIN AD AT THE TOP */}
-        <AdSlot code={ADS.topThin} label="Sponsored" />
+        <AdSlot code={ADS.topThin} label="Sponsored" className="pw-ad--dsk" />
 
         {/* 2. THE GRID (Directly under the ad) */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', marginTop: '2rem' }}>
