@@ -31,7 +31,7 @@ export default function GalleryPage() {
             <button key={cat.name} className={`pw-sidebar-item ${selected === slug ? 'is-active' : ''}`} onClick={() => setSelected(slug)}><span>{cat.icon} {cat.name}</span><span className="count">{prompts.filter((p) => p.category === slug).length}</span></button>
           ); })}
         </div>
-        <AdSlot code={ADS.left} label="Sponsored" />
+        <AdSlot code={ADS.right} label="Sponsored" />
       </aside>
 
       <main style={{ flex: 1, minWidth: 0 }}>
