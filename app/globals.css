@@ -509,3 +509,34 @@ img { max-width: 100%; }
 .pw-carousel__dot { width: 8px; height: 8px; border-radius: 50%; border: none; background: #3a3a48; cursor: pointer; padding: 0; transition: background .2s, transform .2s; }
 .pw-carousel__dot.is-on { background: var(--ochre, #e8a23d); transform: scale(1.25); }
 .pw-carousel__count { font-family: 'Sora', sans-serif; font-size: 12px; color: var(--muted); letter-spacing: .04em; }
+
+/* ===== MOBILE RESPONSIVE ADS ===== */
+@media (max-width: 768px) {
+  .pw-ad--dsk {
+    display: none !important;
+  }
+  .pw-ad--mob {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Make prompt detail page grid stack on mobile */
+  .pw-page > div[style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Center and scale top ad on mobile */
+  .pw-page > div[style*="margin-bottom: 2rem"] > div:first-child {
+    display: none;
+  }
+}
+
+@media (min-width: 769px) {
+  .pw-ad--mob {
+    display: none !important;
+  }
+  .pw-ad--dsk {
+    display: flex !important;
+  }
+}

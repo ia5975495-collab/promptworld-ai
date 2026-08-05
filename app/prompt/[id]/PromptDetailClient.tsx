@@ -56,9 +56,14 @@ export default function PromptDetailClient({ id }: { id: string }) {
     <div className="pw-page" style={{ maxWidth: 1280, margin: '0 auto', padding: '2rem', color: '#fff' }}>
       <Link href="/gallery" style={{ color: 'var(--muted)', textDecoration: 'none', fontSize: 14, display: 'inline-block', marginBottom: '1.5rem' }}>← Back to Gallery</Link>
       
-      {/* NEW: TOP AD BAR (728x90) */}
-      <div style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'center' }}>
-        <AdSlot code={ADS.topThin} label="Sponsored" />
+      {/* TOP AD BAR - Mobile Responsive */}
+      <div style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }}>
+        <div className="pw-ad--dsk" style={{ display: 'flex', justifyContent: 'center' }}>
+          <AdSlot code={ADS.topThin} label="Sponsored" />
+        </div>
+        <div className="pw-ad--mob" style={{ display: 'none', justifyContent: 'center' }}>
+          <AdSlot code={ADS.bottomM} label="Sponsored" />
+        </div>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
@@ -120,20 +125,26 @@ export default function PromptDetailClient({ id }: { id: string }) {
           </div>
           <a href="https://your-image-generator-website.com" target="_blank" rel="noopener noreferrer" className="pw-btn-primary" style={{ width: '100%', justifyContent: 'center', padding: 16, fontSize: 16 }}>🎨 Generate from Image Generator</a>
           
-          {/* AD PLACEMENT 1: Below the Generate button (Right Column) */}
-          <div style={{ marginTop: '2rem' }}>
-            <AdSlot code={ADS.bottom} label="Sponsored" className="pw-ad--dsk" />
-            <AdSlot code={ADS.bottomM} label="Sponsored" className="pw-ad--mob" />
+          {/* AD BELOW GENERATE BUTTON - Use 300x250 for better fit */}
+          <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'center' }}>
+            <AdSlot code={ADS.smart} label="Sponsored" />
           </div>
         </div>
       </div>
 
-      {/* AD PLACEMENT 2: Full width at the very bottom of the page */}
+      {/* BOTTOM ADS - Mobile Responsive */}
       <div style={{ marginTop: '3rem', maxWidth: '970px', margin: '3rem auto 0' }}>
-        <AdSlot code={ADS.bottom} label="Sponsored" className="pw-ad--dsk" />
-        <AdSlot code={ADS.bottomM} label="Sponsored" className="pw-ad--mob" />
+        <div className="pw-ad--dsk" style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
+          <AdSlot code={ADS.bottom} label="Sponsored" />
+        </div>
+        <div className="pw-ad--mob" style={{ display: 'none', justifyContent: 'center' }}>
+          <AdSlot code={ADS.bottomM} label="Sponsored" />
+        </div>
       </div>
 
+      {/* Site-wide ads */}
+      <AdSlot bare code={ADS.pop} />
+      <AdSlot bare code={ADS.social} />
     </div>
   );
 }
