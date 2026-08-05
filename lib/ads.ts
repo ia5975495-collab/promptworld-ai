@@ -54,6 +54,17 @@ export const ADS = {
 </script>
 <script src="https://www.highperformanceformat.com/b1046b92a7ef244d82323a5160f441fd/invoke.js"></script>
 `,
+bottom: `<script>
+  atOptions = {
+    'key' : 'b1046b92a7ef244d82323a5160f441fd',
+    'format' : 'iframe',
+    'height' : 50,
+    'width' : 320,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/b1046b92a7ef244d82323a5160f441fd/invoke.js"></script>
+`,
   pop: `<script src="https://pl30593808.effectivecpmnetwork.com/48/c6/7e/48c67e6ae0eb4dfc9dae2bc65af5a5c5.js"></script>
 
 
