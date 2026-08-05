@@ -3,7 +3,7 @@
 // ============================================================
 
 export const ADS = {
-  // Banner 728x90 (Best for top of main content)
+  // Banner 728x90 is good  (Best for top of main content)
   topThin: `<script>
   atOptions = {
     'key' : '6ad4fc1b924b4e28f83e7319a1d12974',
