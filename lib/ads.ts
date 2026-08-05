@@ -16,8 +16,17 @@
 // ============================================================
 
 export const ADS = {
-   topThin: `<script async="async" data-cfasync="false" src="https://pl30593811.effectivecpmnetwork.com/ccc919cfe979b5e9a28f025954dde80d/invoke.js"></script>
-<div id="container-ccc919cfe979b5e9a28f025954dde80d"></div>`,
+   topThin: `<script>
+  atOptions = {
+    'key' : '8d6672f6b84a752902f901ee196e3432',
+    'format' : 'iframe',
+    'height' : 600,
+    'width' : 160,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/8d6672f6b84a752902f901ee196e3432/invoke.js"></script>
+`,
   left: `<script>
   atOptions = {
     'key' : '6ad4fc1b924b4e28f83e7319a1d12974',
