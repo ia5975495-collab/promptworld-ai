@@ -40,7 +40,7 @@ export default function Home() {
         
         {/* Left Ad Slot */}
         <div style={{ marginTop: '2rem' }}>
-           <AdSlot code={ADS.left} label="Sponsored" className="pw-ad--dsk"  />
+           <AdSlot code={ADS.right} label="Sponsored"  />
         </div>
       </aside>
 
