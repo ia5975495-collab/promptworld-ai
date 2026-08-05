@@ -55,6 +55,12 @@ export default function PromptDetailClient({ id }: { id: string }) {
   return (
     <div className="pw-page" style={{ maxWidth: 1280, margin: '0 auto', padding: '2rem', color: '#fff' }}>
       <Link href="/gallery" style={{ color: 'var(--muted)', textDecoration: 'none', fontSize: 14, display: 'inline-block', marginBottom: '1.5rem' }}>← Back to Gallery</Link>
+      
+      {/* NEW: TOP AD BAR (728x90) */}
+      <div style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'center' }}>
+        <AdSlot code={ADS.topThin} label="Sponsored" />
+      </div>
+
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
         <div>
           {has ? (
