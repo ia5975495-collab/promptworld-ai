@@ -11,7 +11,7 @@ export default function Header() {
     <header className="pw-hdr">
       <div className="pw-hdr__inner">
         <Link href="/" className="pw-brand" aria-label="PromptWorld AI home">
-         <img src="/logo.png" alt="PromptWorld AI" style={{ height: '80px', width: 'auto' }} />
+         <img src="/logo.png" alt="PromptWorld AI" style={{ height: '70px', width: 'auto' }} />
         </Link>
 
         <nav className="pw-nav" aria-label="Primary">
