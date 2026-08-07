@@ -63,12 +63,12 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="google-site-verification" content="4EAJ4Vn_ye4qZyBlKOcXIdGiv7sXdlsc0ule_ifuMCo" />
-        <Script
-          src="https://quge5.com/88/tag.min.js"
-          data-zone="267737"
-          data-cfasync="false"
-          strategy="afterInteractive"
-        />
+        <script
+    src="https://quge5.com/88/tag.min.js"
+    data-zone="267737"
+    data-cfasync="false"
+    async
+  ></script>
       </head>
       <body>
         
