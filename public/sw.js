@@ -1,6 +1,12 @@
-self.options = {
-    "domain": "3nbf4.com",
-    "zoneId": 11521519
-}
+self.options = [
+    {
+        "domain": "3nbf4.com",
+        "zoneId": 11521484
+    },
+    {
+        "domain": "3nbf4.com",
+        "zoneId": 11521519
+    }
+]
 self.lary = ""
 importScripts('https://3nbf4.com/act/files/service-worker.min.js?r=sw')
