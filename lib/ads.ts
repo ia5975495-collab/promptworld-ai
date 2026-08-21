@@ -1,5 +1,5 @@
 // ============================================================
-//  YOUR AD LOCKER — Correctly mapped from AdsTerra
+//  YOUR AD LOCKER — AdsTerra & Monetag
 // ============================================================
 
 export const ADS = {
@@ -72,4 +72,7 @@ export const ADS = {
 
   // Social Bar (Site-wide)
   social: `<script src="https://pl30593807.effectivecpmnetwork.com/e6/ab/c5/e6abc514a63acb302225be5d274dcb6b.js"></script>`,
+
+  // Monetag Tag (Site-wide)
+  monetag: `<script>(function(s){s.dataset.zone='11625946',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>`,
 };

@@ -9,12 +9,12 @@ export const metadata: Metadata = {
     icon: '/favicon.png',
   },
   title: {
-    default: 'PromptWorld AI - Premium AI Prompt Gallery & Marketplace',
+    default: 'PromptWorld AI - AI Prompt Gallery & Creative Hub',
     template: '%s | PromptWorld AI',
   },
   applicationName: 'Prompt World AI',
-  description: 'Discover, copy, and generate with thousands of curated, production-ready AI prompts for Midjourney, DALL-E 3, Stable Diffusion, and Flux. The ultimate prompt library for creators.',
-  keywords: ['AI prompts', 'Midjourney prompts', 'DALL-E 3 prompts', 'Stable Diffusion', 'Flux prompts', 'AI art generator', 'prompt library', 'AI prompt gallery'],
+  description: 'Discover, copy, and generate with thousands of curated, production-ready AI prompts for ChatGPT, Nanobanana Pro, Nanobanana 2, Nanobanana 2 Lite, and Gemini.',
+  keywords: ['AI prompts', 'Nanobanana Pro', 'Nanobanana 2', 'Nanobanana 2 Lite', 'Gemini prompts', 'ChatGPT prompts', 'Google Flow', 'AI prompt gallery'],
   authors: [{ name: 'PromptWorld AI' }],
   creator: 'PromptWorld AI',
   openGraph: {
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://promptworld.store',
     siteName: 'PromptWorld AI',
-    title: 'PromptWorld AI - Premium AI Prompt Gallery',
+    title: 'PromptWorld AI - AI Prompt Gallery',
     description: 'Discover, copy, and generate with thousands of curated AI prompts.',
     images: [
       {
@@ -65,18 +65,11 @@ export default function RootLayout({
         <meta name="google-site-verification" content="4EAJ4Vn_ye4qZyBlKOcXIdGiv7sXdlsc0ule_ifuMCo" />
       </head>
       <body>
-        
-        {/* ========================================== */}
-        {/* GOOGLE ANALYTICS CODE START                */}
-        {/* ========================================== */}
-        
-        {/* 1. Load the Google Analytics library */}
+        {/* Google Analytics */}
         <Script
           strategy="afterInteractive"
           src="https://www.googletagmanager.com/gtag/js?id=G-JJRK269QEZ"
         />
-        
-        {/* 2. Initialize Google Analytics */}
         <Script
           id="google-analytics"
           strategy="afterInteractive"
@@ -90,9 +83,14 @@ export default function RootLayout({
           }}
         />
 
-        {/* ========================================== */}
-        {/* GOOGLE ANALYTICS CODE END                  */}
-        {/* ========================================== */}
+        {/* Monetag Global Multi-Format Tag */}
+        <Script
+          id="monetag-global-tag"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `(function(s){s.dataset.zone='11625946',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')));`,
+          }}
+        />
 
         <Header />
         <main style={{ paddingTop: 0, minHeight: '100vh' }}>

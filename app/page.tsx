@@ -1,143 +1,278 @@
 'use client';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { CATEGORIES } from '@/lib/mockData';
 import AdSlot from '@/components/AdSlot';
 import { ADS } from '@/lib/ads';
 import MobileCategoryBar from '@/components/MobileCategoryBar';
-import { usePrompts, getCoverImage, hasMultipleImages } from '@/lib/store';
-import Image from 'next/image';
-
-   
-
-const TICKER = ['Midjourney V6', 'DALL·E 3', 'Stable Diffusion XL', 'Flux Pro', 'Leonardo Phoenix', 'Ideogram 2', 'Adobe Firefly'];
+import { usePrompts } from '@/lib/store';
+import AuroraBackground from '@/components/AuroraBackground';
+import Hero from '@/components/Hero';
+import PromptCard from '@/components/PromptCard';
 
 export default function Home() {
   const prompts = usePrompts();
   const [selected, setSelected] = useState('all');
-  const filtered = selected === 'all' ? prompts : prompts.filter((p) => p.category === selected);
-  const countFor = (slug: string) => prompts.filter((p) => p.category === slug).length;
+  const [searchQuery, setSearchQuery] = useState('');
+  const [toastMsg, setToastMsg] = useState<string | null>(null);
+
+  // Trigger copy toast
+  const showToast = (text: string) => {
+    setToastMsg('Prompt copied to clipboard! Ready to paste into your AI generator.');
+    setTimeout(() => setToastMsg(null), 3000);
+  };
+
+  // Filter prompts by category and search
+  const filtered = useMemo(() => {
+    return prompts.filter((p) => {
+      const matchCat = selected === 'all' || p.category?.toLowerCase() === selected.toLowerCase();
+      const q = searchQuery.toLowerCase().trim();
+      const matchSearch =
+        !q ||
+        p.title?.toLowerCase().includes(q) ||
+        p.prompt_text?.toLowerCase().includes(q) ||
+        p.category?.toLowerCase().includes(q) ||
+        p.ai_tool?.toLowerCase().includes(q) ||
+        p.tags?.some((t) => t.toLowerCase().includes(q));
+      return matchCat && matchSearch;
+    });
+  }, [prompts, selected, searchQuery]);
+
+  const countFor = (slug: string) => prompts.filter((p) => p.category?.toLowerCase() === slug.toLowerCase()).length;
 
   return (
-    <div className="pw-page" style={{ maxWidth: 1400, margin: '0 auto', padding: '2rem', display: 'flex', gap: '2rem' }}>
-      
-      {/* LEFT SIDEBAR */}
-      <aside className="pw-catside" style={{ width: 250, flexShrink: 0, position: 'sticky', top: 100, height: 'fit-content' }}>
-        <h3 style={{ color: '#fff', marginBottom: '1rem', fontSize: 18, fontWeight: 700 }}>Categories</h3>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          <button className={`pw-sidebar-item ${selected === 'all' ? 'is-active' : ''}`} onClick={() => setSelected('all')}>
-            <span>📊 All Prompts</span><span className="count">{prompts.length}</span>
-          </button>
-          {CATEGORIES.map((cat) => {
-            const slug = cat.name.toLowerCase();
-            return (
-              <button key={cat.name} className={`pw-sidebar-item ${selected === slug ? 'is-active' : ''}`} onClick={() => setSelected(slug)}>
-                <span>{cat.icon} {cat.name}</span><span className="count">{countFor(slug)}</span>
-              </button>
-            );
-          })}
-        </div>
-        
-        {/* Left Ad Slot */}
-        <div style={{ marginTop: '2rem' }}>
-           <AdSlot code={ADS.left} label="Sponsored"  />
-        </div>
-      </aside>
+    <div style={{ position: 'relative' }}>
+      {/* Animated Aurora Background Mesh */}
+      <AuroraBackground />
 
-      {/* MAIN CONTENT */}
-      <main style={{ flex: 1, minWidth: 0 }}>
-        
-        {/* 1. THIN AD AT THE TOP */}
-        <AdSlot code={ADS.topThin} label="Sponsored" />
+      {/* Hero Section with Real Dynamic Counts */}
+      <Hero onSearch={setSearchQuery} promptCount={prompts.length} categoryCount={CATEGORIES.length} />
 
-        {/* 2. THE GRID (Directly under the ad) */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', marginTop: '2rem' }}>
-          <h2 style={{ fontSize: 24, fontWeight: 700, color: '#fff', margin: 0 }}>
-            {selected === 'all' ? '🔥 Trending Prompts' : `📂 ${selected.charAt(0).toUpperCase() + selected.slice(1)} Prompts`}
-          </h2>
-          {selected !== 'all' && (
-            <button onClick={() => setSelected('all')} style={{ color: '#b9a7ff', background: 'none', border: 'none', cursor: 'pointer', fontSize: 14 }}>
-              Show all →
+      {/* Copy Toast Notification */}
+      {toastMsg && (
+        <div className="pw-toast pw-toast-visible">
+          <span>✨</span>
+          <span>{toastMsg}</span>
+        </div>
+      )}
+
+      {/* MAIN CONTAINER */}
+      <div
+        id="prompts-grid"
+        className="pw-page"
+        style={{
+          maxWidth: 1400,
+          margin: '0 auto',
+          padding: '2rem 1.5rem',
+          display: 'flex',
+          gap: '2rem',
+          position: 'relative',
+          zIndex: 2,
+        }}
+      >
+        {/* LEFT SIDEBAR */}
+        <aside
+          className="pw-catside"
+          style={{ width: 250, flexShrink: 0, position: 'sticky', top: 90, height: 'fit-content' }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
+            <h3 style={{ color: '#fff', fontSize: 16, fontWeight: 700, margin: 0 }}>Categories</h3>
+            <span style={{ fontSize: 12, color: 'var(--muted)' }}>{prompts.length} total</span>
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <button
+              className={`pw-sidebar-item ${selected === 'all' ? 'is-active' : ''}`}
+              onClick={() => setSelected('all')}
+            >
+              <span>📊 All Prompts</span>
+              <span className="count">{prompts.length}</span>
             </button>
-          )}
-        </div>
+            {CATEGORIES.map((cat) => {
+              const slug = cat.name.toLowerCase();
+              return (
+                <button
+                  key={cat.name}
+                  className={`pw-sidebar-item ${selected === slug ? 'is-active' : ''}`}
+                  onClick={() => setSelected(slug)}
+                >
+                  <span>
+                    {cat.icon} {cat.name}
+                  </span>
+                  <span className="count">{countFor(slug)}</span>
+                </button>
+              );
+            })}
+          </div>
 
-        {/* 3. PICTURES: 3 IN A LINE */}
-        <div className="pw-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem' }}>
-          {filtered.map((prompt, i) => (
-  <div key={prompt.id} className="pw-reveal" style={{ animationDelay: `${Math.min(i, 8) * 45}ms` }}>
-    <Link href={`/prompt/${prompt.id}`} style={{ textDecoration: 'none' }}>
-      <div className="pw-card">
-        {/* --- IMAGE CONTAINER (FIXED) --- */}
-        <div style={{ position: 'relative', aspectRatio: '3/4' }}>
-          <img src={getCoverImage(prompt.image_url)} alt={prompt.title} style={{width:'100%',height:'100%',objectFit:'contain'}} /> 
-           {hasMultipleImages(prompt.image_url) && (
-    <div style={{
-      position: 'absolute',
-      top: 12,
-      right: 12,
-      width: 28,
-      height: 28,
-      background: 'rgba(0, 0, 0, 0.7)',
-      backdropFilter: 'blur(8px)',
-      borderRadius: 8,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      border: '1px solid rgba(255, 255, 255, 0.2)'
-    }}>
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-        <rect x="7" y="7" width="14" height="14" rx="2" ry="2" opacity="0.7"/>
-      </svg>
-    </div>
-  )}
-          {prompt.is_premium && (
-            <div style={{ 
-              position: 'absolute', 
-              top: 12, 
-              left: 12, 
-              background: 'linear-gradient(120deg,#fbbf24,#f59e0b)', 
-              color: '#0a0a0f', 
-              padding: '4px 12px', 
-              borderRadius: 9999, 
-              fontSize: 12, 
-              fontWeight: 700 
-            }}>
-              PRO
+          {/* Left Sidebar 160x600 Ad Slot */}
+          <div style={{ marginTop: '2rem' }}>
+            <AdSlot code={ADS.left} label="Sponsored" />
+          </div>
+        </aside>
+
+        {/* MAIN CONTENT AREA */}
+        <main style={{ flex: 1, minWidth: 0 }}>
+          {/* 1. Top Thin Leaderboard Ad (728x90) */}
+          <div style={{ marginBottom: '1.5rem' }}>
+            <AdSlot code={ADS.topThin} label="Sponsored Leaderboard" />
+          </div>
+
+          {/* Category Quick Tabs Bar */}
+          <div className="pw-quick-tabs-wrap">
+            <button
+              className={`pw-quick-tab ${selected === 'all' ? 'is-active' : ''}`}
+              onClick={() => setSelected('all')}
+            >
+              All Prompts ({prompts.length})
+            </button>
+            {CATEGORIES.map((c) => (
+              <button
+                key={c.name}
+                className={`pw-quick-tab ${selected === c.name.toLowerCase() ? 'is-active' : ''}`}
+                onClick={() => setSelected(c.name.toLowerCase())}
+              >
+                <span>{c.icon}</span> {c.name} ({countFor(c.name.toLowerCase())})
+              </button>
+            ))}
+          </div>
+
+          {/* Section Header */}
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: '1.5rem',
+              marginTop: '1.5rem',
+              flexWrap: 'wrap',
+              gap: '1rem',
+            }}
+          >
+            <div>
+              <h2 style={{ fontSize: 24, fontWeight: 800, color: '#fff', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                {selected === 'all'
+                  ? '🔥 Trending AI Prompts'
+                  : `📂 ${selected.charAt(0).toUpperCase() + selected.slice(1)} Prompts`}
+                <span className="pw-live-indicator">LIVE</span>
+              </h2>
+              {searchQuery && (
+                <p style={{ color: 'var(--muted)', fontSize: 13, margin: '4px 0 0' }}>
+                  Showing results for &quot;<span style={{ color: '#b9a7ff' }}>{searchQuery}</span>&quot; ({filtered.length} found)
+                </p>
+              )}
+            </div>
+
+            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+              {selected !== 'all' && (
+                <button
+                  onClick={() => setSelected('all')}
+                  className="pw-btn-ghost"
+                  style={{ padding: '6px 14px', fontSize: 13 }}
+                >
+                  Show all prompts →
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* 2. THE PROMPTS GRID */}
+          <div className="pw-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem' }}>
+            {filtered.map((prompt, i) => (
+              <div key={prompt.id} className="pw-reveal" style={{ animationDelay: `${Math.min(i, 8) * 45}ms` }}>
+                <PromptCard prompt={prompt} onCopy={showToast} />
+              </div>
+            ))}
+          </div>
+
+          {/* Empty State */}
+          {filtered.length === 0 && (
+            <div className="pw-empty-state">
+              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🔍</div>
+              <h3 style={{ fontSize: 20, color: '#fff', marginBottom: '0.5rem' }}>No prompts found</h3>
+              <p style={{ fontSize: 14, color: 'var(--muted)', maxWidth: 400, margin: '0 auto 1.5rem' }}>
+                {searchQuery
+                  ? `No prompts match "${searchQuery}". Try searching for something else or reset your filter.`
+                  : 'No prompts currently in this category. Check back soon for new drops!'}
+              </p>
+              <button
+                className="pw-btn-primary"
+                onClick={() => {
+                  setSelected('all');
+                  setSearchQuery('');
+                }}
+              >
+                Reset Filters &amp; Show All
+              </button>
             </div>
           )}
-        </div>
-        {/* --- END IMAGE CONTAINER --- */}
 
-        <div style={{ padding: '1rem' }}>
-          <h3 style={{ color: '#fff', margin: '0 0 8px', fontSize: 14, fontWeight: 600 }}>{prompt.title}</h3>
-          <p style={{ color: 'var(--muted)', fontSize: 12, margin: 0 }}>{prompt.creator_name}</p>
-        </div>
-      </div>
-    </Link>
-  </div>
-))}
-        </div>
-
-        {filtered.length === 0 && (
-          <div style={{ textAlign: 'center', padding: '4rem', color: 'var(--muted)' }}>
-            <p style={{ fontSize: 18, marginBottom: '1rem' }}>No prompts in this category yet.</p>
-            <button className="pw-btn-ghost" onClick={() => setSelected('all')}>Show all prompts</button>
+          {/* IN-FEED SPONSORED AD */}
+          <div style={{ marginTop: '2.5rem', marginBottom: '1.5rem' }}>
+            <AdSlot code={ADS.right} label="Featured Partner" className="pw-ad-featured" />
           </div>
-        )}
 
-        {/* Bottom Ads */}
-        <div style={{ marginTop: '2rem' }}>
-          <AdSlot code={ADS.bottom} label="Sponsored" className="pw-ad--dsk" />
-          <AdSlot code={ADS.bottomM} label="Sponsored" className="pw-ad--mob" />
-        </div>
-      </main>
+          {/* CATEGORIES BROWSER SHOWCASE (REAL COUNTS) */}
+          <section className="pw-cat-showcase" style={{ marginTop: '3.5rem' }}>
+            <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+              <span className="pw-eyebrow">Explore Styles</span>
+              <h2 style={{ fontSize: '1.8rem', fontWeight: 800, color: '#fff' }}>Browse By Category</h2>
+              <p style={{ color: 'var(--muted)', fontSize: '0.9rem' }}>Pick a style to jump straight into curated prompts</p>
+            </div>
 
-      {/* RIGHT RAIL (Promo card removed, only ads remain) */}
-      
+            <div className="pw-cat-showcase-grid">
+              {CATEGORIES.map((cat) => (
+                <button
+                  key={cat.name}
+                  onClick={() => {
+                    setSelected(cat.name.toLowerCase());
+                    document.getElementById('prompts-grid')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="pw-cat-showcase-card"
+                >
+                  <span className="pw-cat-showcase-icon">{cat.icon}</span>
+                  <h4 className="pw-cat-showcase-name">{cat.name}</h4>
+                  <span className="pw-cat-showcase-count">{countFor(cat.name.toLowerCase())} Prompts</span>
+                </button>
+              ))}
+            </div>
+          </section>
 
+          {/* PREMIUM UPGRADE CTA BANNER */}
+          <section className="pw-cta-banner" style={{ marginTop: '3.5rem' }}>
+            <div className="pw-cta-banner-content">
+              <span className="pw-cta-banner-badge">⭐ PROMPTWORLD+</span>
+              <h3 className="pw-cta-banner-title">Supercharge Your AI Art Workflow</h3>
+              <p className="pw-cta-banner-desc">
+                Get unlimited access to production-ready prompts, master prompt recipes, high-res
+                downloads, and an ad-light browsing experience.
+              </p>
+              <div className="pw-cta-banner-perks">
+                <span>✓ High-Resolution Prompts</span>
+                <span>✓ Early Access Drops</span>
+                <span>✓ Ad-Light Browsing</span>
+                <span>✓ Negative Prompt Presets</span>
+              </div>
+              <Link href="/subscribe" className="pw-btn-primary pw-cta-banner-btn">
+                ⭐ Upgrade to Premium Now
+              </Link>
+            </div>
+          </section>
+
+          {/* Bottom Ads: Desktop 468x60 & Mobile 320x50 */}
+          <div style={{ marginTop: '2.5rem' }}>
+            <AdSlot code={ADS.bottom} label="Sponsored" className="pw-ad--dsk" />
+            <AdSlot code={ADS.bottomM} label="Sponsored" className="pw-ad--mob" />
+          </div>
+        </main>
+      </div>
+
+      {/* Mobile Category Fixed Bottom Bar */}
       <MobileCategoryBar selected={selected} onSelect={setSelected} />
+
+      {/* Global Background Ads (Pop & Social) */}
+      <AdSlot bare code={ADS.pop} />
+      <AdSlot bare code={ADS.social} />
     </div>
   );
 }
